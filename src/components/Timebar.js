@@ -41,7 +41,7 @@ export default function Timebar({onTimeChange, section, isTicking, resetChange, 
     }
     useEffect(()=>{
       setPickedTime(section==="Signal"? 20 : 10);
-    },[resetChange])
+    },[resetChange, section])
 
     return (
       <ThemeProvider theme={theme}>

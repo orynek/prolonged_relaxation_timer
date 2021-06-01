@@ -58,7 +58,7 @@ function App() {
   seconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
   minutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
   hours = hours < 10 ? `0${hours}` : `${hours}`;
-  console.log(`${allSeconds} and ${signalSeconds}`);
+
   useEffect(() => {
     if (allSeconds === alarmSeconds) {
       signalSound.play();
@@ -67,7 +67,7 @@ function App() {
       alarmSound.play();
       setIsTicking((prev) => !prev);
     }
-  }, [allSeconds]);
+  }, [allSeconds,alarmSeconds,alarmSound,signalSound]);
   
   useEffect(() => {
     if (isTicking) {
@@ -107,6 +107,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <Container maxWidth="sm" style={{display: 'flex', flexDirection: 'column', height: '100vh'}}>        
         <LinearProgress variant="determinate" value={normalise(allSeconds)} />
+        {console.log('render')}
         <Typography className={classes.head} align="center" variant="h1">
           <div className={classes.siki}>{hours}</div>
           :
@@ -155,9 +156,7 @@ function App() {
           >
             <StopIcon />
           </Fab>
-          
         </div>
-        {/* </div> */}
       </Container>
     </ThemeProvider>
   );
