@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles, createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles';
 import { Typography, Grid, FormControl, Select, MenuItem } from '@material-ui/core';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
+import IconButton from '@material-ui/core/IconButton';
+import VolumeMuteIcon from '@material-ui/icons/VolumeMute';
 
 let theme = createMuiTheme();
 theme = responsiveFontSizes(theme);
@@ -30,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Timebar({onTimeChange, section, isTicking, resetChange}) {
+export default function Timebar({onTimeChange, section, isTicking, resetChange, playStatus}) {
     const classes = useStyles();
     const [pickedTime, setPickedTime] = useState(section==="Signal"? 20 : 10)
     const passTime = (e) => {
@@ -44,7 +46,7 @@ export default function Timebar({onTimeChange, section, isTicking, resetChange})
     return (
       <ThemeProvider theme={theme}>
       <Grid item className={classes.papier}>
-        <Typography className={classes.tytul} variant="h4"><VolumeUpIcon fontSize='small'/>{section}</Typography>
+        <Typography className={classes.tytul} variant="h4"><IconButton aria-label="play">{!playStatus?<VolumeUpIcon fontSize='small'/>:<VolumeMuteIcon fontSize='small'/>}</IconButton>{section}</Typography>
         <FormControl className={classes.picker} >
           <Select
             className={classes.numb}
@@ -57,6 +59,7 @@ export default function Timebar({onTimeChange, section, isTicking, resetChange})
             onChange={passTime}
           >
             <MenuItem value={0.05}>0.05</MenuItem>
+            <MenuItem value={0.1}>0.1</MenuItem>
             <MenuItem value={10}>10</MenuItem>
             <MenuItem value={15}>15</MenuItem>
             <MenuItem value={20}>20</MenuItem>

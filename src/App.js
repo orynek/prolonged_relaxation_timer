@@ -47,9 +47,9 @@ function App() {
   const alarmSound = document.getElementById('alarmSound');
   const classes = useStyles();
   const [isTicking, setIsTicking] = useState(false);
-  const [signalMinutes, setSignalMinutes] = useState(20 * 60);
-  const [alarmMinutes, setAlarmMinutes] = useState(10 * 60);
-  const [allSeconds, setAllSeconds] = useState(signalMinutes + alarmMinutes);
+  const [signalSeconds, setSignalSeconds] = useState(20 * 60);
+  const [alarmSeconds, setAlarmSeconds] = useState(10 * 60);
+  const [allSeconds, setAllSeconds] = useState(signalSeconds + alarmSeconds);
   const [resetStatus, setResetStatus] = useState(true);
   
   seconds = allSeconds % 60;
@@ -58,13 +58,13 @@ function App() {
   seconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
   minutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
   hours = hours < 10 ? `0${hours}` : `${hours}`;
-  
+  console.log(`${allSeconds} and ${signalSeconds}`);
   useEffect(() => {
-    if (allSeconds === signalMinutes) {
-      alarmSound.play();
+    if (allSeconds === alarmSeconds) {
+      signalSound.play();
     }
     if (!allSeconds) {
-      signalSound.play();
+      alarmSound.play();
       setIsTicking((prev) => !prev);
     }
   }, [allSeconds]);
@@ -80,32 +80,32 @@ function App() {
   }, [isTicking]);
 
   useEffect(() => {
-    setAllSeconds(signalMinutes + alarmMinutes);
-  }, [signalMinutes, alarmMinutes]);
+    setAllSeconds(signalSeconds + alarmSeconds);
+  }, [signalSeconds, alarmSeconds]);
 
-  const handleChange = (time, section) => {
+  const handleChange = (minutes, section) => {
     section === "Signal"
-      ? setSignalMinutes(time * 60)
-      : setAlarmMinutes(time * 60);
+      ? setSignalSeconds(minutes * 60)
+      : setAlarmSeconds(minutes * 60);
   };
 
   const handleReset = () => {
     setIsTicking(false);
-    setSignalMinutes(20 * 60);
-    setAlarmMinutes(10 * 60);
-    setAllSeconds(signalMinutes + alarmMinutes);
+    setSignalSeconds(20 * 60);
+    setAlarmSeconds(10 * 60);
+    setAllSeconds(signalSeconds + alarmSeconds);
     setResetStatus((prev) => !prev);
-    signalSound.load();
+    alarmSound.pause();
+    alarmSound.load();
   };
+  
   let MAX = 0;
-  let MIN = signalMinutes + alarmMinutes;
-  const normalise = value => (value - MIN) * 100 / (MAX - MIN)
+  let MIN = signalSeconds + alarmSeconds;
+  const normalise = (value) => ((value - MIN) * 100) / (MAX - MIN);
 
   return (
     <ThemeProvider theme={theme}>
-      <Container maxWidth="sm" style={{display: 'flex', flexDirection: 'column', height: '100vh'}}>
-        {/* <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly'}}> */}
-        
+      <Container maxWidth="sm" style={{display: 'flex', flexDirection: 'column', height: '100vh'}}>        
         <LinearProgress variant="determinate" value={normalise(allSeconds)} />
         <Typography className={classes.head} align="center" variant="h1">
           <div className={classes.siki}>{hours}</div>
@@ -118,12 +118,14 @@ function App() {
           <Timebar
             onTimeChange={handleChange}
             resetChange={resetStatus}
+            playStatus={signalSound.paused}
             section="Signal"
             isTicking={isTicking}
           />
           <Timebar
             onTimeChange={handleChange}
             resetChange={resetStatus}
+            playStatus={alarmSound.paused}
             section="Alarm"
             isTicking={isTicking}
           />
