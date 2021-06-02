@@ -4,11 +4,32 @@ import Timebar from './components/Timebar';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import StopIcon from '@material-ui/icons/Stop';
 import PauseIcon from '@material-ui/icons/Pause';
-import { makeStyles, ThemeProvider, createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
+import { makeStyles, ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
-let theme = createMuiTheme();
-theme = responsiveFontSizes(theme);
+//let theme = createMuiTheme();
+//theme = responsiveFontSizes(theme);
 let interv;
+
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: "Barlow, sans-serif",
+  },
+  palette: {
+    primary: {
+      main: "#0B154D",
+    },
+    secondary: {
+      main: "#0099FF",
+    },
+  },
+  overrides: {
+    MuiSelect: {
+      root: {
+        color: '#0099FF',
+      }
+    }
+  }
+});
 
 const useStyles = makeStyles((theme) => ({
   margin: {
@@ -20,14 +41,23 @@ const useStyles = makeStyles((theme) => ({
   wraper: {
     margin: 'auto 0',
     flexDirection: "column",
-    fontSize: "3rem",
-    "@media (min-width:600px)": {
+    fontSize: "2.5rem",
+    "@media (min-width:300px)": {
+      fontSize: "3rem",
+    },
+    "@media (min-width:350px)": {
       fontSize: "3.5rem",
     },
   },
   head: {
     margin: "auto 0",
-    fontFamily: "Barlow, sans-serif",
+    fontSize: "3rem",
+    "@media (min-width:300px)": {
+      fontSize: "4rem",
+    },
+    "@media (min-width:350px)": {
+      fontSize: "5rem",
+    },
   },
   buttons: {
     display: "flex",
@@ -36,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: '5vh',
     marginTop: "auto",
   },
-  siki: {
+  numbers: {
     display: "inline-block",
     width: "2ch",
   }
@@ -109,14 +139,14 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container maxWidth="sm" style={{display: 'flex', flexDirection: 'column', minHeight: '100vh'}}>        
+      <Container maxWidth="sm" style={{display: 'flex', flexDirection: 'column', minHeight: '100vh', minWidth: '230px'}}>        
         <LinearProgress variant="determinate" value={normalise(allSeconds)} />
-        <Typography className={classes.head} align="center" variant="h1" style={{marginTop: 'clamp(10vh 20vh 40vh)'}} >
-          <div className={classes.siki}>{hours}</div>
+        <Typography className={classes.head} color="primary" align="center" variant="h1" style={{marginTop: 'clamp(10vh 20vh 40vh)'}} >
+          <div className={classes.numbers}>{hours}</div>
           :
-          <div className={classes.siki}>{minutes}</div>
+          <div className={classes.numbers}>{minutes}</div>
           :
-          <div className={classes.siki}>{seconds}</div>
+          <div className={classes.numbers}>{seconds}</div>
         </Typography>
         <Grid container className={classes.wraper}>
           <Timebar
