@@ -14,8 +14,11 @@ const useStyles = makeStyles((theme) => ({
   margin: {
     margin: theme.spacing(2),
   },
+  root: {
+    minHeight: '100vh',
+  },
   wraper: {
-    marginTop: '5vh',
+    margin: 'auto 0',
     flexDirection: "column",
     fontSize: "3rem",
     "@media (min-width:600px)": {
@@ -23,14 +26,14 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   head: {
-    margin: "5vh",
+    margin: "auto 0",
     fontFamily: "Barlow, sans-serif",
   },
   buttons: {
     display: "flex",
     justifyContent: "center",
     ailgnItems: "center",
-    marginBottom: '7vh',
+    marginBottom: '5vh',
     marginTop: "auto",
   },
   siki: {
@@ -64,6 +67,7 @@ function App() {
       signalSound.play();
     }
     if (!allSeconds) {
+      alarmSound.loop = true;
       alarmSound.play();
       setIsTicking((prev) => !prev);
     }
@@ -105,10 +109,9 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container maxWidth="sm" style={{display: 'flex', flexDirection: 'column', height: '100vh'}}>        
+      <Container maxWidth="sm" style={{display: 'flex', flexDirection: 'column', minHeight: '100vh'}}>        
         <LinearProgress variant="determinate" value={normalise(allSeconds)} />
-        {console.log('render')}
-        <Typography className={classes.head} align="center" variant="h1">
+        <Typography className={classes.head} align="center" variant="h1" style={{marginTop: 'clamp(10vh 20vh 40vh)'}} >
           <div className={classes.siki}>{hours}</div>
           :
           <div className={classes.siki}>{minutes}</div>
@@ -120,6 +123,8 @@ function App() {
             onTimeChange={handleChange}
             resetChange={resetStatus}
             playStatus={signalSound.paused}
+            sound={signalSound}
+            defaultMins={20}
             section="Signal"
             isTicking={isTicking}
           />
@@ -127,6 +132,8 @@ function App() {
             onTimeChange={handleChange}
             resetChange={resetStatus}
             playStatus={alarmSound.paused}
+            sound={alarmSound}
+            defaultMins={10}
             section="Alarm"
             isTicking={isTicking}
           />
@@ -134,6 +141,7 @@ function App() {
         <div className={classes.buttons}>
           {isTicking ? (
             <Fab
+              aria-label="pause"
               color="secondary"
               className={classes.margin}
               onClick={() => setIsTicking(false)}
@@ -142,6 +150,7 @@ function App() {
             </Fab>
           ) : (
             <Fab
+              aria-label="play"
               color="primary"
               className={classes.margin}
               onClick={() => setIsTicking(true)}
@@ -149,8 +158,10 @@ function App() {
               <PlayArrowIcon />
             </Fab>
           )}
+          
           <Fab
             color="secondary"
+            aria-label="stop"
             className={classes.margin}
             onClick={() => handleReset()}
           >
