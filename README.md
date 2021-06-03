@@ -1,7 +1,7 @@
 # Prolonged Relaxation Timer - WebApp
 
 Simple count-down timer created to help prolonge relaxation session in case user decides it would be beneficial.
-Version [https://prolonged-relaxation-timer.netlify.app/](Live) 
+Version [Live URL](https://prolonged-relaxation-timer.netlify.app/) 
 
 ## Description
 
