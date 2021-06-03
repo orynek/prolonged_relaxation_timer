@@ -17,23 +17,22 @@ const useStyles = makeStyles(() => ({
       content: '"min"',
       fontSize: '1.5rem',
       opacity: '0.2',
-      // height: '30px',
-      // width: '0px',
       bottom:'10px',
       left:'-45px',
       position: 'absolute',
       color: "#0099FF",
       zIndex:'-1',
+      fontFamily: "Barlow, sans-serif",
     },
   },
   tytul: {
     textTransform: "uppercase",
-    fontSize: "2rem",
+    fontSize: "1.7rem",
     "@media (min-width:300px)": {
-      fontSize: "2.5rem",
+      fontSize: "2.2rem",
     },
     "@media (min-width:350px)": {
-      fontSize: "3rem",
+      fontSize: "2.7rem",
     },
   },
   numb: {

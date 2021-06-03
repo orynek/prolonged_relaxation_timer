@@ -6,8 +6,6 @@ import StopIcon from '@material-ui/icons/Stop';
 import PauseIcon from '@material-ui/icons/Pause';
 import { makeStyles, ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
-//let theme = createMuiTheme();
-//theme = responsiveFontSizes(theme);
 let interv;
 
 const theme = createMuiTheme({
@@ -27,7 +25,7 @@ const theme = createMuiTheme({
       root: {
         color: '#0099FF',
       }
-    }
+    },
   }
 });
 
